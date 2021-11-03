@@ -1,0 +1,7 @@
+{
+  "name": "Prueba2_APPmoviles",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
