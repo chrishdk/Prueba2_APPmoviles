@@ -43,11 +43,11 @@
 
 
 
-<ion-button class="ion-margin-top" expand="full" routerLink="/inicio">
+<ion-button (click)="validarUsuario()" class="ion-margin-top" expand="full">
   <ion-icon name="home-outline" slot="start"></ion-icon>
   Ingresar</ion-button>
 
-<ion-button class="ion-margin-top" expand="full" routerLink="/registro">
+<ion-button (click)="mostrarFormulario()" class="ion-margin-top" expand="full">
   <ion-icon name="person-add-outline" slot="start"></ion-icon>
   Registrar</ion-button>
 
