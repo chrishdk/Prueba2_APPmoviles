@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AlertController, ToastController } from '@ionic/angular';
 import { DbService } from 'src/app/services/db.service';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'app-login',
@@ -13,11 +15,25 @@ export class LoginPage implements OnInit {
 
   modeloPass: string ='';
 
-  constructor(private dbService: DbService, private alertController: AlertController, private toastController: ToastController) {
+  constructor(private api: ApiService, private dbService: DbService, private alertController: AlertController, private toastController: ToastController, private router: Router) {
     console.log('Pagina Login Iniciada');
    }
 
   ngOnInit() {
+  }
+
+  validarLogin() {
+    this.api.validarLogin(this.modeloUser, this.modeloPass).subscribe(data => {
+      console.log(data);
+      // LOGIN OK -> REDIRECCIONAR AL INICIO
+      // LOGIN NOK -> ENVIAR MENSAJE DE CREDENCIALES INVÁLIDAS
+
+      if(data.result === 'LOGIN NOK') {
+        this.presentToast();//TOAST AL NO VALLIDAR
+      } else {
+        this.router.navigate(['inicio']);
+      }
+    })
   }
 //solo validacion por consola
   validarUsuario()  {
@@ -54,6 +70,9 @@ export class LoginPage implements OnInit {
           text: 'Almacenar',
           handler: (data) => {
             this.almacenarUsuario(data.nombre, data.contrasena);
+            this.api.crearUsuario(data.txt_nombre, data.txt_contrasena).subscribe(data => {
+              console.log(data);
+            });
           }
         }
       ]
@@ -80,5 +99,6 @@ export class LoginPage implements OnInit {
     });
     toast.present();
   }
+  
 
 }
