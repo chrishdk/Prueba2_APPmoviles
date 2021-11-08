@@ -18,7 +18,12 @@ export class LoginPage implements OnInit {
 
   lista:[{}];
 
-  constructor(private sqlite:SQLite, private api: ApiService, private dbService: DbService, private alertController: AlertController, private toastController: ToastController, private router: Router) {
+  constructor(private sqlite:SQLite,
+    private api: ApiService,
+    private dbService: DbService,
+    private alertController: AlertController,
+    private toastController: ToastController,
+    private router: Router) {
     console.log('Pagina Login Iniciada');
    }
 
@@ -32,34 +37,40 @@ export class LoginPage implements OnInit {
       // LOGIN NOK -> ENVIAR MENSAJE DE CREDENCIALES INVÁLIDAS
 
       if(data.result === 'LOGIN NOK') {
-        this.presentToast();//TOAST AL NO VALLIDAR
+        this.presentToast();
       } else {
         this.router.navigate(['inicio']);
       }
     })
   }
-//solo validacion por consola
-  validarUsuario()  {
-    console.log(this.modeloUser);
-    console.log(this.modeloPass);
 
+  async presentToast() {
+    const toast = await this.toastController.create({
+      message: 'Credenciales Inválidas.',
+      duration: 2000
+    });
+    toast.present();
   }
 
-  async mostrarFormulario() {
+
+  mostrarFormulario() {
+    this.presentFormulario();
+  }
+
+  async presentFormulario() {
     const alert = await this.alertController.create({
       header: 'Nuevo Usuario',
       inputs: [
         {
-          name: 'nombre',
+          name: 'txt_nombre',
           type: 'text',
-          placeholder: 'Nombre Usuario'
+          placeholder: 'Nombre'
         },
         {
-          name: 'contrasena',
+          name: 'txt_contrasena',
           type: 'password',
           placeholder: 'Contraseña'
-        },
-        
+        }
       ],
       buttons: [
         {
@@ -70,9 +81,9 @@ export class LoginPage implements OnInit {
             console.log('Confirm Cancel');
           }
         }, {
-          text: 'Almacenar',
+          text: 'Ok',
           handler: (data) => {
-            this.almacenarUsuario(data.nombre, data.contrasena);
+
             this.api.crearUsuario(data.txt_nombre, data.txt_contrasena).subscribe(data => {
               console.log(data);
             });
@@ -83,49 +94,109 @@ export class LoginPage implements OnInit {
 
     await alert.present();
   }
-
-  almacenarUsuario(nombre, contrasena) {
-    this.dbService.validarUsuario(nombre).then((data) => {
-      if(!data) {
-        console.log('MMMC--------------SI GUARDO');
-        this.dbService.almacenarUsuario(nombre, contrasena);
-      } else {
-        this.presentToast();
-      }
-    })
-  }
-
-  async presentToast() {
-    const toast = await this.toastController.create({
-      message: 'Usuario Ya Existe',
-      duration: 2000
-    });
-    toast.present();
-  }
-  
-
-  //listar personas BD local
-  listarPersona(){
-    this.sqlite.create({
-      name: 'datos.db',
-      location: 'default',
-      androidDatabaseLocation: 'default'
-    }).then((db: SQLiteObject) => {
-      db.executeSql('SELECT USERNAME, CONTRASENA FROM USUARIO', []).then((data) => {
-        for(let i=0; i <data.rows.length; i++) {
-          if(i===0) {
-            this.lista = [data.rows.item(i)];
-            
-          }else{
-            this.lista.push(data.rows.item(i));
-          }
-        }
-      }).catch(e => {
-        console.log('DSZ: ERROR EN SELECT:' + e.message);
-
-      })
-    }).catch(e =>{})
-
-  }
-
+  //Parte anterior
+//////////////////////////////////////////////////////////////
+//  validarLogin() {
+//    this.api.validarLogin(this.modeloUser, this.modeloPass).subscribe(data => {
+//      console.log(data);
+//      // LOGIN OK -> REDIRECCIONAR AL INICIO
+//      // LOGIN NOK -> ENVIAR MENSAJE DE CREDENCIALES INVÁLIDAS
+//
+//      if(data.result === 'LOGIN NOK') {
+//        this.presentToast();//TOAST AL NO VALLIDAR
+//      } else {
+//        this.router.navigate(['inicio']);
+//      }
+//    })
+//  }
+////solo validacion por consola
+//  validarUsuario()  {
+//    console.log(this.modeloUser);
+//    console.log(this.modeloPass);
+//
+//  }
+//
+//  async mostrarFormulario() {
+//    const alert = await this.alertController.create({
+//      header: 'Nuevo Usuario',
+//      inputs: [
+//        {
+//          name: 'nombre',
+//          type: 'text',
+//          placeholder: 'Nombre Usuario'
+//        },
+//        {
+//          name: 'contrasena',
+//          type: 'password',
+//          placeholder: 'Contraseña'
+//        },
+//        
+//      ],
+//      buttons: [
+//        {
+//          text: 'Cancelar',
+//          role: 'cancel',
+//          cssClass: 'secondary',
+//          handler: () => {
+//            console.log('Confirm Cancel');
+//          }
+//        }, {
+//          text: 'Almacenar',
+//          handler: (data) => {
+//            this.almacenarUsuario(data.nombre, data.contrasena);
+//            this.api.crearUsuario(data.txt_nombre, data.txt_contrasena).subscribe(data => {
+//              console.log(data);
+//            });
+//          }
+//        }
+//      ]
+//    });
+//
+//    await alert.present();
+//  }
+//
+//  almacenarUsuario(nombre, contrasena) {
+//    this.dbService.validarUsuario(nombre).then((data) => {
+//      if(!data) {
+//        console.log('MMMC--------------SI GUARDO');
+//        this.dbService.almacenarUsuario(nombre, contrasena);
+//      } else {
+//        this.presentToast();
+//      }
+//    })
+//  }
+//
+//  async presentToast() {
+//    const toast = await this.toastController.create({
+//      message: 'Usuario Ya Existe',
+//      duration: 2000
+//    });
+//    toast.present();
+//  }
+//  
+//
+//  //listar personas BD local
+//  listarPersona(){
+//    this.sqlite.create({
+//      name: 'datos.db',
+//      location: 'default',
+//      androidDatabaseLocation: 'default'
+//    }).then((db: SQLiteObject) => {
+//      db.executeSql('SELECT USERNAME, CONTRASENA FROM USUARIO', []).then((data) => {
+//        for(let i=0; i <data.rows.length; i++) {
+//          if(i===0) {
+//            this.lista = [data.rows.item(i)];
+//            
+//          }else{
+//            this.lista.push(data.rows.item(i));
+//          }
+//        }
+//      }).catch(e => {
+//        console.log('DSZ: ERROR EN SELECT:' + e.message);
+//
+//      })
+//    }).catch(e =>{})
+//
+//  }
+//
 }

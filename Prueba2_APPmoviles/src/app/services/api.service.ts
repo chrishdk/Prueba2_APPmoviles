@@ -9,22 +9,21 @@ import { Usuario } from '../interfaces/usuario-interface';
 })
 export class ApiService {
 
-  rutaBase = 'http://fer-sepulveda.cl/api/api-user.php';
+  rutaBase = 'http://fer-sepulveda.cl/api/api-prueba2.php';
 
   constructor(private http: HttpClient) { }
 
   validarLogin(nombre, contrasena) {
-    return this.http.get<Respuesta>(this.rutaBase + '?nombreFuncion=UsuarioLogin&nombre=' + nombre + '&contrasena=' + contrasena);
+    return this.http.get<Respuesta>(this.rutaBase + '?nombreFuncion=UsuarioLogin&usuario=' + nombre + '&contrasena=' + contrasena);
   }
 
   crearUsuario(nombre, contrasena) {
     return this.http.post(this.rutaBase, { nombreFuncion: 'UsuarioAlmacenar', parametros: [nombre, contrasena] });
-  }
+    }
 
-  //FUNCIÓN QUE OBTIENE TODOS LOS USUARIOS (GET)
-  //https://fer-sepulveda.cl/api/api-user.php?nombreFuncion=UsuariosObtener
-  
-  usuariosObtener() {
-    return this.http.get(this.rutaBase + '?nombreFuncion=UsuariosObtener');
-  }
+//  //FUNCIÓN QUE OBTIENE TODOS LOS USUARIOS (GET)
+//  //https://fer-sepulveda.cl/api/api-user.php?nombreFuncion=UsuariosObtener
+//  usuariosObtener() {
+//    return this.http.get(this.rutaBase + '?nombreFuncion=UsuariosObtener');
+//  }
 }
