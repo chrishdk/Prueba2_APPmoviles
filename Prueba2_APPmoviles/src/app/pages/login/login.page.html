@@ -57,4 +57,11 @@
     <ion-icon name="outline" slot="start"></ion-icon>
     e404</ion-button>
 
+
+    
+    <ion-button class="ion-margin-top" (click)="listarPersona()" expand="full" >Listar</ion-button>
+    <ion-list *ngFor="let x of lista">
+      <ion-item>{{ x.USERNAME }} - {{x.CONTRASENA}}</ion-item>
+    </ion-list>
+
 </ion-content>

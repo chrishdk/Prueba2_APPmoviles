@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AlertController, ToastController } from '@ionic/angular';
 import { DbService } from 'src/app/services/db.service';
 import { ApiService } from 'src/app/services/api.service';
+import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,9 @@ export class LoginPage implements OnInit {
 
   modeloPass: string ='';
 
-  constructor(private api: ApiService, private dbService: DbService, private alertController: AlertController, private toastController: ToastController, private router: Router) {
+  lista:[{}];
+
+  constructor(private sqlite:SQLite, private api: ApiService, private dbService: DbService, private alertController: AlertController, private toastController: ToastController, private router: Router) {
     console.log('Pagina Login Iniciada');
    }
 
@@ -100,5 +103,29 @@ export class LoginPage implements OnInit {
     toast.present();
   }
   
+
+  //listar personas BD local
+  listarPersona(){
+    this.sqlite.create({
+      name: 'datos.db',
+      location: 'default',
+      androidDatabaseLocation: 'default'
+    }).then((db: SQLiteObject) => {
+      db.executeSql('SELECT USERNAME, CONTRASENA FROM USUARIO', []).then((data) => {
+        for(let i=0; i <data.rows.length; i++) {
+          if(i===0) {
+            this.lista = [data.rows.item(i)];
+            
+          }else{
+            this.lista.push(data.rows.item(i));
+          }
+        }
+      }).catch(e => {
+        console.log('DSZ: ERROR EN SELECT:' + e.message);
+
+      })
+    }).catch(e =>{})
+
+  }
 
 }
