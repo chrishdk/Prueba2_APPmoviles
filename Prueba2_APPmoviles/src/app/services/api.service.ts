@@ -23,6 +23,7 @@ export class ApiService {
 
   //FUNCIÓN QUE OBTIENE TODOS LOS USUARIOS (GET)
   //https://fer-sepulveda.cl/api/api-user.php?nombreFuncion=UsuariosObtener
+  
   usuariosObtener() {
     return this.http.get(this.rutaBase + '?nombreFuncion=UsuariosObtener');
   }
