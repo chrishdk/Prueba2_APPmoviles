@@ -29,19 +29,17 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {
   }
-
+  // VALIDACION LOGIN DE API
   validarLogin() {
     this.api.validarLogin(this.modeloUser, this.modeloPass).subscribe(data => {
       console.log(data);
-      // LOGIN OK -> REDIRECCIONAR AL INICIO
-      // LOGIN NOK -> ENVIAR MENSAJE DE CREDENCIALES INVÁLIDAS
 
       if(data.result === 'LOGIN NOK') {
-        this.presentToastIngresar();
+        this.presentToastIngresar(); // LOGIN NOK -> ENVIAR MENSAJE DE CREDENCIALES INVÁLIDAS
       } else {
-        this.router.navigate(['inicio']);
+        this.router.navigate(['inicio']);// LOGIN OK -> REDIRECCIONAR AL INICIO
 
-//// ALMACENAR DB AL INGRESAR
+        // ALMACENA USUARIO AL INGRESAR
         this.almacenarUsuario(this.modeloUser, this.modeloPass);
         console.log('DSZ-------------------------------Almacenado en BD AL INGRESAR');
         
@@ -72,15 +70,41 @@ export class LoginPage implements OnInit {
     toast.present();
   }
 
-  
+  async presentToastListar() {
+    const toast = await this.toastController.create({
+      message: '↓↓↓ Lista Desplegada Abajo ↓↓↓',
+      duration: 2000
+    });
+    toast.present();
+  }
 
-  
+  async presentAlertModi() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Usuario Modificado Correctamente',
+      buttons: ['OK']
+    });
 
-  
+    await alert.present();
 
+    const { role } = await alert.onDidDismiss();
+    console.log('onDidDismiss resolved with role', role);
+  }
 
+  async presentAlertReg() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Usuario Registrado Correctamente',
+      buttons: ['OK']
+    });
 
+    await alert.present();
 
+    const { role } = await alert.onDidDismiss();
+    console.log('onDidDismiss resolved with role', role);
+  }
+
+  //MOSTRAR FORMULARIO REGISTRAR
   async mostrarFormulario() {
     const alert = await this.alertController.create({
       header: 'Nuevo Usuario',
@@ -107,9 +131,9 @@ export class LoginPage implements OnInit {
         }, {
           text: 'Ok',
           handler: (data) => {
-
             this.api.crearUsuario(data.txt_nombre, data.txt_contrasena).subscribe(data => {
               console.log(data);
+              this.presentAlertReg();
               console.log('DSZ----------------------------creacion completa');
             });
             
@@ -138,7 +162,7 @@ async presentFormularioModi() {
       {
         name: 'txt_nuevaContrasena',
         type: 'password',
-        placeholder: 'Contraseña'
+        placeholder: 'Nueva Contraseña'
       },
     ],
     buttons: [
@@ -165,6 +189,7 @@ async presentFormularioModi() {
 
                 this.api.modificarPassword(data1.txt_usuario, data1.txt_nuevaContrasena).subscribe(data => {
                   console.log(data);
+                  this.presentAlertModi();
                 });
                 this.router.navigate(['login']);
               }
@@ -190,7 +215,6 @@ async presentFormularioModi() {
         console.log('MMMC--------------SI GUARDO');
         this.dbService.almacenarUsuario(nombre, contrasena);
       } else {
-        this.presentToastRegistrar();
       }
     });
   }
@@ -206,6 +230,7 @@ async presentFormularioModi() {
         for(let i=0; i <data.rows.length; i++) {
           if(i===0) {
             this.lista = [data.rows.item(i)];
+            this.presentToastListar();
             
           }else{
             this.lista.push(data.rows.item(i));

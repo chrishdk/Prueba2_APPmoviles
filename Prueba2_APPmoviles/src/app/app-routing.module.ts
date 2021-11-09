@@ -20,11 +20,6 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'registro',
-    redirectTo: 'registro',
-    pathMatch: 'full'
-  },
-  {
     path: '**',
     redirectTo: 'e404',
     pathMatch: 'full'
