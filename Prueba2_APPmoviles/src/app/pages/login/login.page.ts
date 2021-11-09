@@ -167,20 +167,10 @@ async presentFormularioModi() {
 
                 this.api.modificarPassword(data1.txt_usuario, data1.txt_nuevaContrasena).subscribe(data => {
                   console.log(data);
-                  console.log('DSZ----------------------------creacion completa');
                 });
                 this.router.navigate(['login']);
-        //// ALMACENAR DB AL INGRESAR
-        //        this.almacenarUsuario(this.modeloUser, this.modeloPass);
-        //        console.log('DSZ-------------------------------Almacenado en BD AL INGRESAR');
               }
-            })
-          
-
-
-
-
-          
+            })          
         }
       }
     ]
