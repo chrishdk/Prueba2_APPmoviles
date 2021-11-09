@@ -41,6 +41,7 @@ export class LoginPage implements OnInit {
       } else {
         this.router.navigate(['inicio']);
 
+//// ALMACENAR DB AL INGRESAR
         this.almacenarUsuario(this.modeloUser, this.modeloPass);
         console.log('DSZ-------------------------------Almacenado en BD AL INGRESAR');
         
