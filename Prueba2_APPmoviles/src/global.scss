@@ -24,3 +24,13 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+
+.combi {
+    --background: #FF6363;
+    --color: #000000;
+}
+
+.tema {
+    --background: linear-gradient(142deg, rgb(52, 225, 235) 78%, rgb(192, 232, 235) 35%, rgba(159, 196, 206, 0.315) 100%);
+}

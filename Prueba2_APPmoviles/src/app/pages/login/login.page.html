@@ -1,6 +1,6 @@
 <ion-header>
 
-  <ion-toolbar>
+  <ion-toolbar class="tema">
 
     <ion-title>
       <ion-icon name="person-circle-outline" margin="left" ></ion-icon>
@@ -43,26 +43,28 @@
 
 
 
-<ion-button (click)="validarLogin()" class="ion-margin-top" expand="full">
+<ion-button (click)="validarLogin()" class="ion-margin-top tema combi" expand="full">
   <ion-icon name="home-outline" slot="start"></ion-icon>
   Ingresar</ion-button>
 
-<ion-button (click)="mostrarFormulario()" class="ion-margin-top" expand="full">
+<ion-button (click)="mostrarFormulario()" class="ion-margin-top tema combi" expand="full">
   <ion-icon name="person-add-outline" slot="start"></ion-icon>
   Registrar</ion-button>
 
-<ion-button (click)="presentFormularioModi()" class="ion-margin-top" expand="full">
+<ion-button (click)="presentFormularioModi()" class="ion-margin-top tema combi" expand="full">
   <ion-icon name="build-outline" slot="start"></ion-icon>
   Modificar</ion-button>
 
 
-  <ion-button class="ion-margin-top" expand="full" routerLink = "/ajskjdk"> <!-- BOTON PAGINA INEXISTENTE e404-->   
+  <ion-button class="ion-margin-top tema combi" expand="full" routerLink = "/ajskjdk"> <!-- BOTON PAGINA INEXISTENTE e404-->   
     <ion-icon name="bug-outline" slot="start"></ion-icon>
     e404</ion-button>
 
 
     
-    <ion-button class="ion-margin-top" (click)="listarPersona()" expand="full" >Listar</ion-button>
+    <ion-button class="ion-margin-top tema combi" (click)="listarPersona()" expand="full" >
+      <ion-icon name="list-outline" slot="start"></ion-icon>
+      Listar</ion-button>
     <ion-list *ngFor="let x of lista">
       <ion-item>{{ x.USERNAME }} - {{x.CONTRASENA}}</ion-item>
     </ion-list>
