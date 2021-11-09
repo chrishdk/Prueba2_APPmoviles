@@ -40,6 +40,11 @@ export class LoginPage implements OnInit {
         this.presentToastIngresar();
       } else {
         this.router.navigate(['inicio']);
+
+        this.almacenarUsuario(this.modeloUser, this.modeloPass);
+        console.log('DSZ-------------------------------Almacenado en BD AL INGRESAR');
+        
+
       }
     })
   }
@@ -95,8 +100,7 @@ export class LoginPage implements OnInit {
               console.log(data);
               console.log('DSZ----------------------------creacion completa');
             });
-            this.almacenarUsuario(data.txt_nombre, data.txt_contrasena);
-            console.log('DSZ-------------------------------Almacenado en BD');
+            
           }
         }
       ]
