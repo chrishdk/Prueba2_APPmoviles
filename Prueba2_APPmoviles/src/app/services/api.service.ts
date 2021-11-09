@@ -21,6 +21,12 @@ export class ApiService {
     return this.http.post(this.rutaBase, { nombreFuncion: 'UsuarioAlmacenar', parametros: [nombre, contrasena] });
     }
 
+    //FUNCION QUE MODIFICA UN USUARIO
+  modificarPassword(nombre, contrasena) {
+    this.http.put(this.rutaBase, { nombreFuncion: "UsuarioModificarContrasena", parametros: { usuario: nombre, contrasena: contrasena} });
+  }
+    
+
 //  //FUNCIÓN QUE OBTIENE TODOS LOS USUARIOS (GET)
 //  //https://fer-sepulveda.cl/api/api-user.php?nombreFuncion=UsuariosObtener
 //  usuariosObtener() {

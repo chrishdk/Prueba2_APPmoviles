@@ -65,11 +65,11 @@ export class LoginPage implements OnInit {
   }
 
 
-  mostrarFormulario() {
-    this.presentFormulario();
-  }
+  //mostrarFormulario() {
+  //  this.presentFormulario();
+  //}
 
-  async presentFormulario() {
+  async mostrarFormulario() {
     const alert = await this.alertController.create({
       header: 'Nuevo Usuario',
       inputs: [
@@ -169,6 +169,50 @@ export class LoginPage implements OnInit {
 //    await alert.present();
 //  }
 //
+
+async presentFormularioModi() {
+  const alert = await this.alertController.create({
+    header: 'Modificar Contraseña',
+    inputs: [
+      {
+        name: 'txt_nombre',
+        type: 'text',
+        placeholder: 'Nombre'
+      },
+      {
+        name: 'txt_contrasena',
+        type: 'password',
+        placeholder: 'Contraseña'
+      },
+      {
+        name: 'txt_nuevaContrasena',
+        type: 'password',
+        placeholder: 'Nueva Contraseña'
+      }
+    ],
+    buttons: [
+      {
+        text: 'Cancelar',
+        role: 'cancel',
+        cssClass: 'secondary',
+        handler: () => {
+          console.log('Confirm Cancel');
+        }
+      }, {
+        text: 'Ok',
+        handler: (data) => {
+          this.api.modificarPassword(data.txt_nombre, data.txt_contrasena).subscribe(data => {
+            console.log(data);
+            console.log('DSZ----------------------------creacion completa');
+          });
+          
+        }
+      }
+    ]
+  });
+
+  await alert.present();
+}
   almacenarUsuario(nombre, contrasena) {
     this.dbService.validarUsuario(nombre).then((data) => {
       if(!data) {

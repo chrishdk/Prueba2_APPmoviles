@@ -52,9 +52,13 @@
   <ion-icon name="person-add-outline" slot="start"></ion-icon>
   Registrar</ion-button>
 
+<ion-button (click)="presentFormularioModi()" class="ion-margin-top" expand="full">
+  <ion-icon name="build-outline" slot="start"></ion-icon>
+  Modificar</ion-button>
+
 
   <ion-button class="ion-margin-top" expand="full" routerLink = "/ajskjdk"> <!-- BOTON PAGINA INEXISTENTE e404-->   
-    <ion-icon name="outline" slot="start"></ion-icon>
+    <ion-icon name="bug-outline" slot="start"></ion-icon>
     e404</ion-button>
 
 
@@ -63,5 +67,7 @@
     <ion-list *ngFor="let x of lista">
       <ion-item>{{ x.USERNAME }} - {{x.CONTRASENA}}</ion-item>
     </ion-list>
+
+
 
 </ion-content>
