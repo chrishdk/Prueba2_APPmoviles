@@ -79,9 +79,7 @@ export class LoginPage implements OnInit {
   
 
 
-  //mostrarFormulario() {
-  //  this.presentFormulario();
-  //}
+
 
   async mostrarFormulario() {
     const alert = await this.alertController.create({
@@ -185,112 +183,7 @@ async presentFormularioModi() {
 
 
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
-  //Parte anterior
-//////////////////////////////////////////////////////////////
-//  validarLogin() {
-//    this.api.validarLogin(this.modeloUser, this.modeloPass).subscribe(data => {
-//      console.log(data);
-//      // LOGIN OK -> REDIRECCIONAR AL INICIO
-//      // LOGIN NOK -> ENVIAR MENSAJE DE CREDENCIALES INVÁLIDAS
-//
-//      if(data.result === 'LOGIN NOK') {
-//        this.presentToast();//TOAST AL NO VALLIDAR
-//      } else {
-//        this.router.navigate(['inicio']);
-//      }
-//    })
-//  }
-////solo validacion por consola
-//  validarUsuario()  {
-//    console.log(this.modeloUser);
-//    console.log(this.modeloPass);
-//
-//  }
-//
-//  async mostrarFormulario() {
-//    const alert = await this.alertController.create({
-//      header: 'Nuevo Usuario',
-//      inputs: [
-//        {
-//          name: 'nombre',
-//          type: 'text',
-//          placeholder: 'Nombre Usuario'
-//        },
-//        {
-//          name: 'contrasena',
-//          type: 'password',
-//          placeholder: 'Contraseña'
-//        },
-//        
-//      ],
-//      buttons: [
-//        {
-//          text: 'Cancelar',
-//          role: 'cancel',
-//          cssClass: 'secondary',
-//          handler: () => {
-//            console.log('Confirm Cancel');
-//          }
-//        }, {
-//          text: 'Almacenar',
-//          handler: (data) => {
-//            this.almacenarUsuario(data.nombre, data.contrasena);
-//            this.api.crearUsuario(data.txt_nombre, data.txt_contrasena).subscribe(data => {
-//              console.log(data);
-//            });
-//          }
-//        }
-//      ]
-//    });
-//
-//    await alert.present();
-//  }
-//
 
-//async presentFormularioModi() {
-//  const alert = await this.alertController.create({
-//    header: 'Modificar Contraseña',
-//    inputs: [
-//      {
-//        name: 'txt_nombre',
-//        type: 'text',
-//        placeholder: 'Nombre'
-//      },
-//      {
-//        name: 'txt_contrasena',
-//        type: 'password',
-//        placeholder: 'Contraseña'
-//      },
-//      {
-//        name: 'txt_nuevaContrasena',
-//        type: 'password',
-//        placeholder: 'Nueva Contraseña'
-//      }
-//    ],
-//    buttons: [
-//      {
-//        text: 'Cancelar',
-//        role: 'cancel',
-//        cssClass: 'secondary',
-//        handler: () => {
-//          console.log('Confirm Cancel');
-//        }
-//      }, {
-//        text: 'Ok',
-//        handler: (data) => {
-//          this.api.modificarPassword(data.txt_nombre, data.txt_contrasena).subscribe(data => {
-//            console.log(data);
-//            console.log('DSZ----------------------------creacion completa');
-//          });
-//          
-//        }
-//      }
-//    ]
-//  });
-
-//  await alert.present();
-//}
   almacenarUsuario(nombre, contrasena) {
     this.dbService.validarUsuario(nombre).then((data) => {
       if(!data) {
@@ -301,16 +194,7 @@ async presentFormularioModi() {
       }
     });
   }
-//
-//  async presentToast() {
-//    const toast = await this.toastController.create({
-//      message: 'Usuario Ya Existe',
-//      duration: 2000
-//    });
-//    toast.present();
-//  }
-//  
-//
+
 //  //listar personas BD local
   listarPersona(){
     this.sqlite.create({
