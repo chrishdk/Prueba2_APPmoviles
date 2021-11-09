@@ -63,6 +63,19 @@ export class LoginPage implements OnInit {
     });
     toast.present();
   }
+  async presentToastDatos() {
+    const toast = await this.toastController.create({
+      message: 'Datos Ingresado Incorrectos',
+      duration: 2000
+    });
+    toast.present();
+  }
+
+  
+
+  
+
+  
 
 
   //mostrarFormulario() {
@@ -108,6 +121,102 @@ export class LoginPage implements OnInit {
 
     await alert.present();
   }
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+async presentFormularioModi() {
+  const alert = await this.alertController.create({
+    header: 'Modificar Contraseña',
+    inputs: [
+      {
+        name: 'txt_usuario',
+        type: 'text',
+        placeholder: 'Usuario'
+      },
+      {
+        name: 'txt_contrasena',
+        type: 'password',
+        placeholder: 'Contraseña'
+      },
+    ],
+    buttons: [
+      {
+        text: 'Cancelar',
+        role: 'cancel',
+        cssClass: 'secondary',
+        handler: () => {
+          console.log('Confirm Cancel');
+        }
+      }, {
+        text: 'Ok',
+        handler: (data) => {
+
+
+          this.api.validarLogin(data.txt_usuario, data.txt_contrasena).subscribe(data => {
+            console.log(data);
+            if (data.result === 'LOGIN OK' ) 
+            {
+              this.presentFormularioConfirmarPass()
+              console.log('MMC:-----------USUARIO VALIDADO, SE PROCEDE AL MENU DE CONTRASEÑA');
+
+            }
+            else 
+            {
+              console.log('MMC:-----------' + data.result)
+              console.log('MMC:-----------USUARIO NO VALIDADO');
+              this.presentToastDatos();
+            }
+
+          });
+        }
+      }
+    ]
+  });
+
+await alert.present();
+}
+
+async presentFormularioConfirmarPass() {
+  const alert = await this.alertController.create({
+    header: 'Confirme su nueva contraseña',
+    inputs: [
+      {
+        name: 'txt_usuario',
+        type: 'text',
+        placeholder: 'Usuario'
+      },
+      {
+        name: 'txt_nuevaContrasena',
+        type: 'password',
+        placeholder: 'Nueva Contraseña'
+      },
+    ],
+    buttons: [
+      {
+        text: 'Cancelar',
+        role: 'cancel',
+        cssClass: 'secondary',
+        handler: () => {
+          console.log('Confirm Cancel');
+        }
+      }, {
+        text: 'Ok',
+        handler: (data) => {
+
+          this.api.modificarPassword(data.txt_usuario, data.txt_nuevaContrasena).subscribe(data => {
+            console.log(data);
+            console.log('MMC:-----------Contraseña Modificada');
+          });
+        }
+      }
+    ]
+  });
+await alert.present();
+}
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
   //Parte anterior
 //////////////////////////////////////////////////////////////
 //  validarLogin() {
@@ -170,49 +279,49 @@ export class LoginPage implements OnInit {
 //  }
 //
 
-async presentFormularioModi() {
-  const alert = await this.alertController.create({
-    header: 'Modificar Contraseña',
-    inputs: [
-      {
-        name: 'txt_nombre',
-        type: 'text',
-        placeholder: 'Nombre'
-      },
-      {
-        name: 'txt_contrasena',
-        type: 'password',
-        placeholder: 'Contraseña'
-      },
-      {
-        name: 'txt_nuevaContrasena',
-        type: 'password',
-        placeholder: 'Nueva Contraseña'
-      }
-    ],
-    buttons: [
-      {
-        text: 'Cancelar',
-        role: 'cancel',
-        cssClass: 'secondary',
-        handler: () => {
-          console.log('Confirm Cancel');
-        }
-      }, {
-        text: 'Ok',
-        handler: (data) => {
-          this.api.modificarPassword(data.txt_nombre, data.txt_contrasena).subscribe(data => {
-            console.log(data);
-            console.log('DSZ----------------------------creacion completa');
-          });
-          
-        }
-      }
-    ]
-  });
+//async presentFormularioModi() {
+//  const alert = await this.alertController.create({
+//    header: 'Modificar Contraseña',
+//    inputs: [
+//      {
+//        name: 'txt_nombre',
+//        type: 'text',
+//        placeholder: 'Nombre'
+//      },
+//      {
+//        name: 'txt_contrasena',
+//        type: 'password',
+//        placeholder: 'Contraseña'
+//      },
+//      {
+//        name: 'txt_nuevaContrasena',
+//        type: 'password',
+//        placeholder: 'Nueva Contraseña'
+//      }
+//    ],
+//    buttons: [
+//      {
+//        text: 'Cancelar',
+//        role: 'cancel',
+//        cssClass: 'secondary',
+//        handler: () => {
+//          console.log('Confirm Cancel');
+//        }
+//      }, {
+//        text: 'Ok',
+//        handler: (data) => {
+//          this.api.modificarPassword(data.txt_nombre, data.txt_contrasena).subscribe(data => {
+//            console.log(data);
+//            console.log('DSZ----------------------------creacion completa');
+//          });
+//          
+//        }
+//      }
+//    ]
+//  });
 
-  await alert.present();
-}
+//  await alert.present();
+//}
   almacenarUsuario(nombre, contrasena) {
     this.dbService.validarUsuario(nombre).then((data) => {
       if(!data) {
@@ -256,5 +365,7 @@ async presentFormularioModi() {
     }).catch(e =>{})
 
   }
+
+  
 //
 }
