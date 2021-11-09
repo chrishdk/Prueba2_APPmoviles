@@ -42,7 +42,7 @@ export class LoginPage implements OnInit {
         // ALMACENA USUARIO AL INGRESAR
         this.almacenarUsuario(this.modeloUser, this.modeloPass);
         console.log('DSZ-------------------------------Almacenado en BD AL INGRESAR');
-        this.presentToastDatos();
+
         
 
       }
@@ -212,8 +212,8 @@ async presentFormularioModi() {
 
   almacenarUsuario(nombre, contrasena) {
     this.dbService.validarUsuario(nombre).then((data) => {
-      if(!data) {
-        console.log('MMMC--------------SI GUARDO');
+      if(data=nombre) {
+        console.log('MMMC--------------SI GUARDO' + contrasena );
         this.dbService.almacenarUsuario(nombre, contrasena);
       } else {
       }
@@ -228,7 +228,7 @@ async presentFormularioModi() {
       androidDatabaseLocation: 'default',
       
     }).then((db: SQLiteObject) => {
-      db.executeSql('SELECT USERNAME, CONTRASENA FROM USUARIO', []).then((data) => {
+      db.executeSql('SELECT USERNAME, CONTRASENA, CONNECT FROM USUARIO', []).then((data) => {
         for(let i=0; i <data.rows.length; i++) {
           if(i===0) {
             this.lista = [data.rows.item(i)];
