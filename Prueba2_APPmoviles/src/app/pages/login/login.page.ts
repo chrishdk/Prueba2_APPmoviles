@@ -41,6 +41,7 @@ export class LoginPage implements OnInit {
       } else {
         this.router.navigate(['inicio']);
 
+//// ALMACENAR DB AL INGRESAR
         this.almacenarUsuario(this.modeloUser, this.modeloPass);
         console.log('DSZ-------------------------------Almacenado en BD AL INGRESAR');
         
@@ -201,10 +202,13 @@ async presentFormularioModi() {
       }, {
         text: 'Ok',
         handler: (data) => {
-          this.api.modificarPassword(data.txt_nombre, data.txt_contrasena).subscribe(data => {
-            console.log(data);
-            console.log('DSZ----------------------------creacion completa');
-          });
+          this.api.modificarPassword(data.txt_nombre, data.txt_contrasena)
+          
+          
+//          (data => {
+//            console.log(data);
+//            console.log('DSZ----------------------------creacion completa');
+//          });
           
         }
       }
