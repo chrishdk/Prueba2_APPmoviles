@@ -42,6 +42,7 @@ export class LoginPage implements OnInit {
         // ALMACENA USUARIO AL INGRESAR
         this.almacenarUsuario(this.modeloUser, this.modeloPass);
         console.log('DSZ-------------------------------Almacenado en BD AL INGRESAR');
+        this.presentToastDatos();
         
 
       }
@@ -224,7 +225,8 @@ async presentFormularioModi() {
     this.sqlite.create({
       name: 'datos.db',
       location: 'default',
-      androidDatabaseLocation: 'default'
+      androidDatabaseLocation: 'default',
+      
     }).then((db: SQLiteObject) => {
       db.executeSql('SELECT USERNAME, CONTRASENA FROM USUARIO', []).then((data) => {
         for(let i=0; i <data.rows.length; i++) {

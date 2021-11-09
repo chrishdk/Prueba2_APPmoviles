@@ -15,7 +15,7 @@ export class DbService {
       location: 'default'
     }).then((db: SQLiteObject) => {
       console.log('MMC:---------------------BASE DE DATOS OK');
-      db.executeSql('CREATE TABLE IF NOT EXISTS USUARIO(USERNAME VARCHAR(25), CONTRASENA VARCHAR(25))', []).then(() => {
+      db.executeSql('CREATE TABLE IF NOT EXISTS USUARIO(USERNAME VARCHAR(25) PRIMARY KEY, CONTRASENA VARCHAR(25))', []).then(() => {
         console.log('MMC:---------------------TABLA CREADA OK');        
       }).catch(e => {
         console.log('MMC:---------------------TABLA NOK');
@@ -32,8 +32,8 @@ export class DbService {
       location: 'default'
     }).then((db: SQLiteObject) => {
       console.log('MMC:---------------------BASE DE DATOS OK');
-      db.executeSql('INSERT OR REPLACE INTO USUARIO VALUES (?, ?)', [nombre, contrasena]).then(() => {
-        console.log('MMC:---------------------USUARIO ALMACENADO OK');        
+      db.executeSql('INSERT OR RAPLACE INTO USUARIO (USERNAME, CONTRASENA) VALUES (?, ?)', [nombre, contrasena]).then(() => {
+        console.log('MMC:---------------------USUARIO ALMACENADO OK');       
       }).catch(e => {
         console.log('MMC:---------------------USUARIO NO ALMACENADO');
       })
