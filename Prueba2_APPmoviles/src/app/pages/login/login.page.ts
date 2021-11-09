@@ -37,16 +37,23 @@ export class LoginPage implements OnInit {
       // LOGIN NOK -> ENVIAR MENSAJE DE CREDENCIALES INVÁLIDAS
 
       if(data.result === 'LOGIN NOK') {
-        this.presentToast();
+        this.presentToastIngresar();
       } else {
         this.router.navigate(['inicio']);
       }
     })
   }
 
-  async presentToast() {
+  async presentToastIngresar() {
     const toast = await this.toastController.create({
       message: 'Credenciales Inválidas.',
+      duration: 2000
+    });
+    toast.present();
+  }
+  async presentToastRegistrar() {
+    const toast = await this.toastController.create({
+      message: 'Ya existe Usuario.',
       duration: 2000
     });
     toast.present();
@@ -86,7 +93,10 @@ export class LoginPage implements OnInit {
 
             this.api.crearUsuario(data.txt_nombre, data.txt_contrasena).subscribe(data => {
               console.log(data);
+              console.log('DSZ----------------------------creacion completa');
             });
+            this.almacenarUsuario(data.txt_nombre, data.txt_contrasena);
+            console.log('DSZ-------------------------------Almacenado en BD');
           }
         }
       ]
@@ -155,16 +165,16 @@ export class LoginPage implements OnInit {
 //    await alert.present();
 //  }
 //
-//  almacenarUsuario(nombre, contrasena) {
-//    this.dbService.validarUsuario(nombre).then((data) => {
-//      if(!data) {
-//        console.log('MMMC--------------SI GUARDO');
-//        this.dbService.almacenarUsuario(nombre, contrasena);
-//      } else {
-//        this.presentToast();
-//      }
-//    })
-//  }
+  almacenarUsuario(nombre, contrasena) {
+    this.dbService.validarUsuario(nombre).then((data) => {
+      if(!data) {
+        console.log('MMMC--------------SI GUARDO');
+        this.dbService.almacenarUsuario(nombre, contrasena);
+      } else {
+        this.presentToastRegistrar();
+      }
+    })
+  }
 //
 //  async presentToast() {
 //    const toast = await this.toastController.create({
@@ -176,27 +186,27 @@ export class LoginPage implements OnInit {
 //  
 //
 //  //listar personas BD local
-//  listarPersona(){
-//    this.sqlite.create({
-//      name: 'datos.db',
-//      location: 'default',
-//      androidDatabaseLocation: 'default'
-//    }).then((db: SQLiteObject) => {
-//      db.executeSql('SELECT USERNAME, CONTRASENA FROM USUARIO', []).then((data) => {
-//        for(let i=0; i <data.rows.length; i++) {
-//          if(i===0) {
-//            this.lista = [data.rows.item(i)];
-//            
-//          }else{
-//            this.lista.push(data.rows.item(i));
-//          }
-//        }
-//      }).catch(e => {
-//        console.log('DSZ: ERROR EN SELECT:' + e.message);
-//
-//      })
-//    }).catch(e =>{})
-//
-//  }
+  listarPersona(){
+    this.sqlite.create({
+      name: 'datos.db',
+      location: 'default',
+      androidDatabaseLocation: 'default'
+    }).then((db: SQLiteObject) => {
+      db.executeSql('SELECT USERNAME, CONTRASENA FROM USUARIO', []).then((data) => {
+        for(let i=0; i <data.rows.length; i++) {
+          if(i===0) {
+            this.lista = [data.rows.item(i)];
+            
+          }else{
+            this.lista.push(data.rows.item(i));
+          }
+        }
+      }).catch(e => {
+        console.log('DSZ: ERROR EN SELECT:' + e.message);
+
+      })
+    }).catch(e =>{})
+
+  }
 //
 }
