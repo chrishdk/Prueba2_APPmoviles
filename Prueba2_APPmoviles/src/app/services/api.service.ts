@@ -22,8 +22,9 @@ export class ApiService {
     }
 
     //FUNCION QUE MODIFICA UN USUARIO
-  modificarPassword(nombre, contrasena) {
-    this.http.put(this.rutaBase, { nombreFuncion: "UsuarioModificarContrasena", parametros: { usuario: nombre, contrasena: contrasena} });
+  modificarPassword(usuario, contrasena) {
+    return this.http.put(this.rutaBase, { nombreFuncion: "UsuarioModificarContrasena", parametros: { usuario: usuario, contrasena: contrasena} });
+    
   }
     
 

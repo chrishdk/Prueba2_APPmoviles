@@ -32,7 +32,7 @@ export class DbService {
       location: 'default'
     }).then((db: SQLiteObject) => {
       console.log('MMC:---------------------BASE DE DATOS OK');
-      db.executeSql('INSERT INTO USUARIO VALUES (?, ?)', [nombre, contrasena]).then(() => {
+      db.executeSql('INSERT OR REPLACE INTO USUARIO VALUES (?, ?)', [nombre, contrasena]).then(() => {
         console.log('MMC:---------------------USUARIO ALMACENADO OK');        
       }).catch(e => {
         console.log('MMC:---------------------USUARIO NO ALMACENADO');

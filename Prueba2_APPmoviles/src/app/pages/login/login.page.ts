@@ -137,57 +137,10 @@ async presentFormularioModi() {
         type: 'password',
         placeholder: 'Contraseña'
       },
-    ],
-    buttons: [
-      {
-        text: 'Cancelar',
-        role: 'cancel',
-        cssClass: 'secondary',
-        handler: () => {
-          console.log('Confirm Cancel');
-        }
-      }, {
-        text: 'Ok',
-        handler: (data) => {
-
-
-          this.api.validarLogin(data.txt_usuario, data.txt_contrasena).subscribe(data => {
-            console.log(data);
-            if (data.result === 'LOGIN OK' ) 
-            {
-              this.presentFormularioConfirmarPass()
-              console.log('MMC:-----------USUARIO VALIDADO, SE PROCEDE AL MENU DE CONTRASEÑA');
-
-            }
-            else 
-            {
-              console.log('MMC:-----------' + data.result)
-              console.log('MMC:-----------USUARIO NO VALIDADO');
-              this.presentToastDatos();
-            }
-
-          });
-        }
-      }
-    ]
-  });
-
-await alert.present();
-}
-
-async presentFormularioConfirmarPass() {
-  const alert = await this.alertController.create({
-    header: 'Confirme su nueva contraseña',
-    inputs: [
-      {
-        name: 'txt_usuario',
-        type: 'text',
-        placeholder: 'Usuario'
-      },
       {
         name: 'txt_nuevaContrasena',
         type: 'password',
-        placeholder: 'Nueva Contraseña'
+        placeholder: 'Contraseña'
       },
     ],
     buttons: [
@@ -200,18 +153,43 @@ async presentFormularioConfirmarPass() {
         }
       }, {
         text: 'Ok',
-        handler: (data) => {
+        handler: (data1) => {
 
-          this.api.modificarPassword(data.txt_usuario, data.txt_nuevaContrasena).subscribe(data => {
-            console.log(data);
-            console.log('MMC:-----------Contraseña Modificada');
-          });
+         
+            this.api.validarLogin(data1.txt_usuario, data1.txt_contrasena).subscribe(data => {
+              console.log(data);
+              // LOGIN OK -> REDIRECCIONAR AL INICIO
+              // LOGIN NOK -> ENVIAR MENSAJE DE CREDENCIALES INVÁLIDAS
+        
+              if(data.result === 'LOGIN NOK') {
+                this.presentToastIngresar();
+              } else {
+
+                this.api.modificarPassword(data1.txt_usuario, data1.txt_nuevaContrasena).subscribe(data => {
+                  console.log(data);
+                  console.log('DSZ----------------------------creacion completa');
+                });
+                this.router.navigate(['login']);
+        //// ALMACENAR DB AL INGRESAR
+        //        this.almacenarUsuario(this.modeloUser, this.modeloPass);
+        //        console.log('DSZ-------------------------------Almacenado en BD AL INGRESAR');
+              }
+            })
+          
+
+
+
+
+          
         }
       }
     ]
   });
-await alert.present();
+
+  await alert.present();
 }
+
+
 
 
 
@@ -331,7 +309,7 @@ await alert.present();
       } else {
         this.presentToastRegistrar();
       }
-    })
+    });
   }
 //
 //  async presentToast() {
@@ -367,6 +345,4 @@ await alert.present();
 
   }
 
-  
-//
 }
