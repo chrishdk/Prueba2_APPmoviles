@@ -63,6 +63,21 @@ export class DbService {
 
    }
 
+
+
+   eliminarTabla() {
+    return this.sqlite.create({
+      name: 'datos.db',
+      location: 'default'
+    }).then((db: SQLiteObject) => {
+      return db.executeSql('DELETE FROM USUARIO', []).then(( data ) => {            
+      }).catch(e => {    
+      })
+    }).catch(e => {   
+    });
+   } 
+
+
   canActivate() {
     this.router.navigate(['login']);
 

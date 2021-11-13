@@ -28,6 +28,7 @@ export class LoginPage implements OnInit {
    }
 
   ngOnInit() {
+    this.listarPersona();
   }
   // VALIDACION LOGIN DE API
   validarLogin() {
@@ -40,7 +41,8 @@ export class LoginPage implements OnInit {
         this.router.navigate(['inicio']);// LOGIN OK -> REDIRECCIONAR AL INICIO
 
         // ALMACENA USUARIO AL INGRESAR
-        this.almacenarUsuario(this.modeloUser, this.modeloPass);
+
+        this.dbService.almacenarUsuario(this.modeloUser, this.modeloPass);
         console.log('DSZ-------------------------------Almacenado en BD AL INGRESAR');
 
         
@@ -204,22 +206,6 @@ async presentFormularioModi() {
 }
 
 
-
-
-
-
-
-
-  almacenarUsuario(nombre, contrasena) {
-    this.dbService.validarUsuario(nombre).then((data) => {
-      if(data=nombre) {
-        console.log('MMMC--------------SI GUARDO' + contrasena );
-        this.dbService.almacenarUsuario(nombre, contrasena);
-      } else {
-      }
-    });
-  }
-
 //  //listar personas BD local
   listarPersona(){
     this.sqlite.create({
@@ -245,5 +231,7 @@ async presentFormularioModi() {
     }).catch(e =>{})
 
   }
+
+
 
 }
