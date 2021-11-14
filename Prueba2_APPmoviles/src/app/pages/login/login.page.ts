@@ -217,10 +217,13 @@ async presentFormularioModi() {
       db.executeSql('SELECT USERNAME, CONTRASENA, CONNECT FROM USUARIO', []).then((data) => {
         for(let i=0; i <data.rows.length; i++) {
           if(i===0) {
+          //  this.lista.splice(0,this.lista.length);
+          this.lista= [{}];
             this.lista = [data.rows.item(i)];
             this.presentToastListar();
             
           }else{
+            this.lista= [{}];
             this.lista.push(data.rows.item(i));
           }
         }

@@ -43,22 +43,21 @@ export class DbService {
 
    }
 
-   validarUsuario(nombre) {
+   validarEx() {
     return this.sqlite.create({
       name: 'datos.db',
       location: 'default'
     }).then((db: SQLiteObject) => {
       
-      return db.executeSql('SELECT COUNT(USERNAME) AS CANTIDAD FROM USUARIO WHERE USERNAME = ?', [nombre]).then(( data ) => {
+      return db.executeSql('SELECT COUNT(USERNAME) AS CANTIDAD FROM USUARIO ').then(( data ) => {
         if(data.rows.item(0).CANTIDAD === 0) {
           return false; //USUARIO NO EXISTE
         }
-        return true;                
+        return true;
+
       }).catch(e => {
         return true;        
       })
-    }).catch(e => {
-      return true;      
     });
 
    }
