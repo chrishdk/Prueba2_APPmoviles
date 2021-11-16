@@ -14,6 +14,6 @@ export class InicioPage implements OnInit {
   }
 
   eliminarUsuario(){
-    this.dbService.eliminarTabla();
+    this.dbService.eliminarUser();
   }
 }

@@ -8,6 +8,8 @@ import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
 })
 export class DbService {
 
+  lista:[{}];
+
   constructor(private router: Router, private sqlite: SQLite) {
     //NO CORRE EN WEB CON ESTA PARTE DE CODIGO SOLO EMULADOR
     this.sqlite.create({
@@ -23,9 +25,9 @@ export class DbService {
     }).catch(e => {
       console.log('MMC:---------------------BASE DE DATOS NOK');
     })
-    /////////////////////////////////////////////
    }
 
+   //ALMACENAR Y REMPLAZAR DATOS DEL USUARIO LOCAL 
    almacenarUsuario(nombre, contrasena) {
     this.sqlite.create({
       name: 'datos.db',
@@ -43,28 +45,28 @@ export class DbService {
 
    }
 
-   validarEx() {
-    return this.sqlite.create({
-      name: 'datos.db',
-      location: 'default'
-    }).then((db: SQLiteObject) => {
-      
-      return db.executeSql('SELECT COUNT(USERNAME) AS CANTIDAD FROM USUARIO ').then(( data ) => {
-        if(data.rows.item(0).CANTIDAD === 0) {
-          return false; //USUARIO NO EXISTE
-        }
-        return true;
+//   validarEx() {
+//    return this.sqlite.create({
+//      name: 'datos.db',
+//      location: 'default'
+//    }).then((db: SQLiteObject) => {
+//      
+//      return db.executeSql('SELECT COUNT(USERNAME) AS CANTIDAD FROM USUARIO ').then(( data ) => {
+//        if(data.rows.item(0).CANTIDAD === 0) {
+//          return false; //USUARIO NO EXISTE
+//        }
+//        return true;
+//
+//      }).catch(e => {
+//        return true;        
+//      })
+//    });
+//
+//   }
 
-      }).catch(e => {
-        return true;        
-      })
-    });
 
-   }
-
-
-
-   eliminarTabla() {
+// AL DESCONECTAR EL USUARIO SE ELIMINA DE LA BD 
+   eliminarUser() {
     return this.sqlite.create({
       name: 'datos.db',
       location: 'default'
@@ -74,7 +76,28 @@ export class DbService {
       })
     }).catch(e => {   
     });
-   } 
+   }
+
+
+//VERIFICACION DE USUARIO REGISTRADO LOCALMENTE
+   inicioLocal(){
+    return this.sqlite.create({
+      name: 'datos.db',
+      location: 'default',
+      androidDatabaseLocation: 'default',
+      
+    }).then((db: SQLiteObject) => {
+      return db.executeSql('SELECT COUNT(USERNAME) as USERNAME FROM USUARIO', []).then((data) => {
+        if(data.rows.item(0).USERNAME === 0){
+        return false;
+      }
+      return true;
+      }).catch(e => {
+        console.log('DSZ: ERROR EN SELECT:' + e.message);
+      })
+    }).catch(e =>{})
+
+  }
 
 
   canActivate() {

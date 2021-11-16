@@ -28,7 +28,8 @@ export class LoginPage implements OnInit {
    }
 
   ngOnInit() {
-    this.listarPersona();
+  //  this.inicioLocal(); //inicio local guardado
+  this.inicioLocal();
   }
   // VALIDACION LOGIN DE API
   validarLogin() {
@@ -65,6 +66,7 @@ export class LoginPage implements OnInit {
     });
     toast.present();
   }
+  
   async presentToastDatos() {
     const toast = await this.toastController.create({
       message: 'Datos Ingresado Incorrectos',
@@ -107,7 +109,7 @@ export class LoginPage implements OnInit {
     console.log('onDidDismiss resolved with role', role);
   }
 
-  //MOSTRAR FORMULARIO REGISTRAR
+  //MOSTRAR FORMULARIO REGISTRAR USUARIO
   async mostrarFormulario() {
     const alert = await this.alertController.create({
       header: 'Nuevo Usuario',
@@ -147,7 +149,7 @@ export class LoginPage implements OnInit {
 
     await alert.present();
   }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//FORMULARIO PARA MODIFICAR USUARIO
 async presentFormularioModi() {
   const alert = await this.alertController.create({
     header: 'Modificar Contraseña',
@@ -205,35 +207,81 @@ async presentFormularioModi() {
   await alert.present();
 }
 
+//  inicioLocal(){
+//    this.sqlite.create({
+//      name: 'datos.db',
+//      location: 'default',
+//      androidDatabaseLocation: 'default',
+//      
+//    }).then((db: SQLiteObject) => {
+//      db.executeSql('SELECT USERNAME FROM USUARIO', []).then((data) => {
+//        for(let i=0; i <data.rows.length; i++) {
+//          if(i===0) {
+//            this.router.navigate(['inicio']);
+//          }else{
+//            this.router.navigate(['login']);
+//          }
+//        }
+//      }).catch(e => {
+//        console.log('DSZ: ERROR EN SELECT:' + e.message);
+//
+//      })
+//    }).catch(e =>{})
+//
+//  }
 
-//  //listar personas BD local
-  listarPersona(){
-    this.sqlite.create({
-      name: 'datos.db',
-      location: 'default',
-      androidDatabaseLocation: 'default',
-      
-    }).then((db: SQLiteObject) => {
-      db.executeSql('SELECT USERNAME, CONTRASENA, CONNECT FROM USUARIO', []).then((data) => {
-        for(let i=0; i <data.rows.length; i++) {
-          if(i===0) {
-          //  this.lista.splice(0,this.lista.length);
-          this.lista= [{}];
-            this.lista = [data.rows.item(i)];
-            this.presentToastListar();
-            
-          }else{
-            this.lista= [{}];
-            this.lista.push(data.rows.item(i));
-          }
-        }
-      }).catch(e => {
-        console.log('DSZ: ERROR EN SELECT:' + e.message);
 
-      })
-    }).catch(e =>{})
-
+  inicioLocal(){
+    this.dbService.inicioLocal().then((data) =>{
+      if(!data){
+        this.router.navigate(['login']);
+      }
+      else{
+        this.router.navigate(['inicio']);
+      }
+    })
   }
+
+
+
+
+
+
+
+
+
+//listar personas BD local
+listarPersona(){
+  this.sqlite.create({
+    name: 'datos.db',
+    location: 'default',
+    androidDatabaseLocation: 'default',
+    
+  }).then((db: SQLiteObject) => {
+    db.executeSql('SELECT USERNAME FROM USUARIO', []).then((data) => {
+      for(let i=0; i <data.rows.length; i++) {
+        if(i===0) {
+        //  this.lista.splice(0,this.lista.length);
+        this.presentToastListar();
+          this.lista = [data.rows.item(i)];
+
+          
+        }else{
+
+          this.lista.push(data.rows.item(i));
+
+        }
+      }
+    }).catch(e => {
+      console.log('DSZ: ERROR EN SELECT:' + e.message);
+
+    })
+  }).catch(e =>{})
+
+}
+
+
+
 
 
 

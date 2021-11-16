@@ -62,11 +62,14 @@
 
 
     
-    <ion-button class="ion-margin-top tema combi" (click)="listarPersona()" expand="full" >
+    <ion-button class="ion-margin-top tema combi" (click)="listaPersona()" expand="full" >
       <ion-icon name="list-outline" slot="start"></ion-icon>
       Listar</ion-button>
+
+
+
     <ion-list *ngFor="let x of lista">
-      <ion-item >{{ x.USERNAME }} - {{ x.CONTRASENA }} - {{ x.CONNECT}}</ion-item>
+      <ion-item >{{ x.USERNAME }} - {{ x.CONTRASENA }}</ion-item>
     </ion-list>
 
 
