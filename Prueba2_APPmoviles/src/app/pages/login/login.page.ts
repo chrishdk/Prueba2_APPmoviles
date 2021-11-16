@@ -66,7 +66,7 @@ export class LoginPage implements OnInit {
     });
     toast.present();
   }
-  
+
   async presentToastDatos() {
     const toast = await this.toastController.create({
       message: 'Datos Ingresado Incorrectos',
@@ -245,11 +245,6 @@ async presentFormularioModi() {
 
 
 
-
-
-
-
-
 //listar personas BD local
 listarPersona(){
   this.sqlite.create({
@@ -258,16 +253,13 @@ listarPersona(){
     androidDatabaseLocation: 'default',
     
   }).then((db: SQLiteObject) => {
-    db.executeSql('SELECT USERNAME FROM USUARIO', []).then((data) => {
+    db.executeSql('SELECT USERNAME, CONTRASENA FROM USUARIO', []).then((data) => {
       for(let i=0; i <data.rows.length; i++) {
         if(i===0) {
         //  this.lista.splice(0,this.lista.length);
         this.presentToastListar();
           this.lista = [data.rows.item(i)];
-
-          
         }else{
-
           this.lista.push(data.rows.item(i));
 
         }
