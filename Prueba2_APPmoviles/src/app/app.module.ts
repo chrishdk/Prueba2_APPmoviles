@@ -11,11 +11,13 @@ import { SQLite } from '@ionic-native/sqlite/ngx';
 
 import { HttpClientModule } from '@angular/common/http';
 
+import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, SQLite],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, SQLite, BarcodeScanner],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
